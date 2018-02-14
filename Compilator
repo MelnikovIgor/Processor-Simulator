@@ -16,34 +16,7 @@ void PupCode (char file_[], const std::string &code_, unsigned func_sz);
 int main()
     {
     Compile ();
-    /*std::string str_code = GetCode ("Code.txt");
-
-    unsigned n_of_commands = 0;
-
-    //std::cout << str_code << "\n" << str_code.size ();
-
-    for (int i = 0; i < str_code.size (); i++)
-        {
-        if (str_code[i] == '\r' || str_code[i] == '\n' || str_code[i] == '\0') str_code[i] = ' ';
-        }
-
-    for (int i = 0; i < Num_of_functions; i++)
-        {
-        std::vector<int> find_words = SubStrSearch (str_code, AllFunctions[i].name_);
-        n_of_commands += find_words.size ();
-
-        for (int k = 0; k < find_words.size (); k++)
-        for (int j = 0; j < AllFunctions[i].name_.size () && j < AllFunctions[i].num_name_.size (); j++)
-            {
-            str_code[find_words[k]+j] = AllFunctions[i].num_name_[j];
-            }
-        }
-
-    for (int i = 0; i < str_code.size (); i++)
-    if (str_code[i] == ';') str_code[i] = '\n';
-
-    PupCode ("ComputerCode.txt", str_code, n_of_commands);
-                       */
+    
     return 0;
     }
 
