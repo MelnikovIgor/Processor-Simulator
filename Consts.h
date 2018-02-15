@@ -33,8 +33,8 @@ Function AllFunctions[12] = {{Null_num       , "Null " , "1 0  " },
                              {Cos_num        , "cos "  , "1 9 "  },
                              {Pop_num        , "pop "  , "3 1 "  },
                              {Push_num       , "push " , "3 11 " },
-                             {Jump_num       , "jump " , "2 12 " },
-                             {Mark_num       , "mark " , "1 13 " }
+                             {Jump_num       , "jump " , "2 12 " }//,
+                             //{Mark_num       , "mark " , "1 13 " }
                             };
 
 const int Buffer_max_size = 20;

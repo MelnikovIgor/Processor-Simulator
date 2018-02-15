@@ -16,7 +16,7 @@ void PupCode (char file_[], const std::string &code_, unsigned func_sz);
 int main()
     {
     Compile ();
-    
+
     return 0;
     }
 
@@ -25,28 +25,28 @@ void Compile ()
     std::string str_code = GetCode ("Code.txt");
 
     unsigned n_of_commands = 0;
-    
+
     int last_stop = 0;
-    int n_of_commands_before = 0;
-    
-    std::vector<int> find_marks = SubStrSearch (str_code, AllFunctions[Mark_num].name_);
+    //int n_of_commands_before = 0;
+
+    /*std::vector<int> find_marks = SubStrSearch (str_code, AllFunctions[Mark_num].name_);
     for (int i = 0; i < find_marks.size (); i++)
         {
         for (int j = last_stop; j < find_marks[i]; j++)
             {
             if (str_code[i] == ';') n_of_commands_before++;
             }
-        
+
         int mark_begin;
-        int 
-            
+        int
+
         for (int j = find_marks[i]+5; 1; j++)
             {
-            
+
             }
-            
+
         last_stop = find_marks[i];
-        }
+        }*/
 
     for (int i = 0; i < Num_of_functions; i++)
         {
