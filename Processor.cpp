@@ -38,12 +38,27 @@ class CProc
     CStack stack_;
     CBuffer buffer_;
 
+    double ax, bx, cx, dx;
+
     std::vector<double> list_;
     unsigned cursor = 0;
 
     public:
-    CProc () : stack_ () {}
-    CProc (const CProc& Proc) : stack_ (Proc.stack_) {}
+    CProc () :
+        stack_ (),
+        ax (0),
+        bx (0),
+        cx (0),
+        dx (0)
+        {}
+
+    CProc (const CProc& Proc) :
+        stack_ (Proc.stack_),
+        ax (0),
+        bx (0),
+        cx (0),
+        dx (0)
+        {}
 
     void     Push (int push_type, double new_item);
     void   Pop (int pop_type, int where);
@@ -67,6 +82,8 @@ class CProc
     void ExtractFromFile (char name[]);
 
 	bool Binar (int x);
+
+	void Dump ();
     };
 
 bool CompareWords (char word1[], int Sz1, char word2[], int SZ2);
@@ -78,8 +95,7 @@ int main ()
     main_proc.ExtractFromFile ("ComputerCode.txt");
     main_proc.Performer ();
 
-    main_proc.DumpStack ();
-    main_proc.DumpBuffer ();
+    main_proc.Dump ();
 
     system ("pause");
 
@@ -110,9 +126,24 @@ void CProc::Push (int push_type, double new_item)
             break;
             }
 
-        case 1:         //buffer
+        case 1:
             {
             stack_.Push (buffer_[(unsigned)new_item]);
+            break;
+            }
+
+        case 2:
+            {
+            switch ((int)new_item)
+                {
+                case 0: stack_.Push (ax); break;
+                case 1: stack_.Push (bx); break;
+                case 2: stack_.Push (cx); break;
+                case 3: stack_.Push (dx); break;
+
+                default: break;
+                }
+
             break;
             }
 
@@ -127,13 +158,28 @@ void CProc::Pop (int pop_type, int where)
         case 0:
             {
             stack_.Pop ();
-            break;
 
+            break;
             }
 
-        case 1:         //buffer
+        case 1:
             {
             buffer_[where] = stack_.Pop ();
+
+            break;
+            }
+
+        case 2:
+            {
+            switch (where)
+                {
+                case 0: ax = stack_.Pop (); break;
+                case 1: bx = stack_.Pop (); break;
+                case 2: cx = stack_.Pop (); break;
+                case 3: dx = stack_.Pop (); break;
+
+                default: break;
+                }
 
             break;
             }
@@ -275,6 +321,13 @@ void* CProc::DoComand (int Num, double Parametr)
             break;
             }
 
+        case Mark_num:
+            {
+            cursor++;
+
+            break;
+            }
+
         default: return false;
         }
 
@@ -318,3 +371,14 @@ void CProc::ExtractFromFile (char name[])
     fclose (code_file);
     }
 
+void CProc::Dump ()
+    {
+    DumpStack ();
+
+    std::cout << "\n   " << ax
+              << "  "    << bx
+              << "  "    << cx
+              << "  "    << dx << "\n";
+
+    DumpBuffer ();
+    }
