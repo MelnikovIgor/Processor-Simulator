@@ -1,9 +1,9 @@
 struct Function
-    {
+{
     int num_;
     std::string name_;
     std::string num_name_;
-    };
+};
 
 const int Null_num = 0;
 const int Add_num  = 2;

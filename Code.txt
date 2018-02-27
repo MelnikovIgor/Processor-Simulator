@@ -1,7 +1,7 @@
 
 push (3);
-push (5);
-jump here;
+push (1);
+if here;
 pop [5];
 push [5];
 mark here;

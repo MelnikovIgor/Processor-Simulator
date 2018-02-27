@@ -1,5 +1,5 @@
 class CStack final
-    {
+{
     private:
     double* buffer_;
     size_t size_;
@@ -29,7 +29,7 @@ class CStack final
     unsigned      Hash         () const;
 
     bool          Checker      () const ;
-    };
+};
 
 CStack::CStack () :
     size_ (0),
@@ -52,19 +52,19 @@ CStack::CStack (const CStack& Original) :
     }
 
 bool CStack::ChangeBuffer (double* buffer, bool should_I_delete /*= true*/)
-    {
+{
     if (should_I_delete) DeleteBuffer ();
     buffer_ = buffer;
 
     last_hash = Hash ();
 
     return true;
-    }
+}
 
 void CStack::Push (double new_item)
-    {
+{
     if (mem_size_ == size_)
-        {
+    {
         mem_size_ = mem_size_*2;
 
         double* new_buffer = new double[mem_size_];
@@ -72,22 +72,22 @@ void CStack::Push (double new_item)
         std::copy(buffer_, buffer_ + mem_size_/2, new_buffer);
 
         buffer_ = new_buffer;
-        }
+    }
 
     size_++;
     buffer_[size_-1] = new_item;
 
     last_hash = Hash ();
-    }
+}
 
 double CStack::Pop ()
-    {
+{
     if (size_ == 0)
-        {
+    {
         std::cout << "You're trying to do bad things! \n";
 
         return 0.0;
-        }
+    }
 
     double resault = buffer_[size_ - 1];
 
@@ -96,48 +96,48 @@ double CStack::Pop ()
     last_hash = Hash ();
 
     return resault;
-    }
+}
 
 void CStack::Dump () const
-    {
+{
     std::cout << "Stack: \n";
     std::cout << "  Size    " << size_ << std::endl;
     std::cout << "  MemSize " << mem_size_ << std::endl;
     std::cout << "  Hash    " << Hash () << std::endl;
 
     for (unsigned i = 0; i < size_; i++)
-        {
+    {
         std::cout << "    " << buffer_[i] << std::endl;
-        }
-
-    Checker ();
     }
 
+    Checker ();
+}
+
 unsigned CStack::Hash ()const
-    {
+{
     unsigned resualt = 0;
 
     resualt += (unsigned)buffer_ + (unsigned)(&size_) + (unsigned)(&mem_size_);
     resualt += 3*size_ + 5*mem_size_;
 
     for (unsigned i = 0; i < size_; i++)
-        {
+    {
         resualt += (unsigned)buffer_[i]/7;
-        }
-
-    return resualt;
     }
 
+    return resualt;
+}
+
 bool CStack::Checker ()const
-    {
+{
     if (Hash () != last_hash)
-        {
+    {
         std::cout << "Oh, my hash changed illegal!";
 
         return true;
-        }
+    }
 
     return false;
-    }
+}
 
 

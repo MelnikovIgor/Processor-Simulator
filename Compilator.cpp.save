@@ -39,9 +39,9 @@ void Compile ()
     for (int i = 0; i < Num_of_functions; i++)
     {
         if (i == Jump_possition) FindMark (str_code);
-
+        
         std::vector<int> find_words = SubStrSearch (str_code, AllFunctions[i].name_);
-
+        
         n_of_commands += find_words.size ();
 
         for (int k = 0; k < find_words.size (); k++)
@@ -55,10 +55,10 @@ void Compile ()
 
     for (int i = 0; i < str_code.size (); i++)
     {
-        if (str_code[i] == ';')
+        if (str_code[i] == ';') 
             {
-            n_of_commands++;
-            str_code[i] = '\n';
+            n_of_commands++; 
+            str_code[i] = '\n'; 
             }
     }
 
@@ -84,12 +84,12 @@ void FindMark (std::string& str_code)
             {
                 n_of_param_before++;
                 space = false;
-            }
+                }
             else
-            {
+                {
                 if (str_code[j] == ' ') space = true;
+                }
             }
-        }
 
         for (int j = 0; j < find_label[i]; j++)
             if (str_code[j] == ';') n_of_commands_before++;
@@ -103,10 +103,10 @@ void FindMark (std::string& str_code)
 
         for (int j = find_label[i]+5; 1; j++)
             if (str_code[j] != ' ')
-            {
+                {
                 label_begin = j;
                 break;
-            }
+                }
 
         for (int j = label_begin; str_code[j] != ' '; j++)
             lable_name.push_back (str_code[j]);
@@ -116,24 +116,23 @@ void FindMark (std::string& str_code)
         std::vector<int> find_label_usings = SubStrSearch (str_code, lable_name);
 
         for (int j = 0; j < find_label_usings.size (); j++)
-        {
+            {
             str_code.erase (find_label_usings[j], lable_name.size ());
             str_code.insert (find_label_usings[j], lable_num_in_code);
 
-            for (int k = j+1; k < find_label_usings.size (); k++)
-                find_label_usings[k] = find_label_usings[k] - lable_name.size ()+lable_num_in_code.size ();
-        }
+            for (int k = j+1; k < find_label_usings.size (); k++) find_label_usings[k] = find_label_usings[k] - lable_name.size ()+lable_num_in_code.size ();
+            }
 
         last_stop = find_label[i];
 
         lable_num_in_code.clear ();
         n_of_commands_before = 0;
         n_of_param_before = 0;
+        }
     }
-}
 
 std::string GetCode (char FileName[])
-{
+    {
     FILE* codeFile = fopen (FileName, "rb");
 
     fseek (codeFile, 0, SEEK_END);
@@ -147,34 +146,34 @@ std::string GetCode (char FileName[])
     fclose (codeFile);
 
     for (int i = 0; i < codeSize; i++)
-    {
+        {
         if (code[i] == '\r' || code[i] == '\n' || code[i] == '\0') code[i] = ' ';
-    }
+        }
 
     std::string resualt;
 
     for (int i = 0; i < codeSize; i++)
-    {
-        if (code[i] == ';' || code[i] == '(' || code[i] == ')' ||
-            code[i] == ']' || code[i] == '[' || code[i] == ' ')
         {
+        if (code[i] == ';' || code[i] == '(' || code[i] == ')' ||
+            code[i] == ']' || code[i] == '[')
+            {
             for (int j = 0; j < 5; j++) resualt.push_back (' ');
             resualt.push_back (code[i]);
             for (int j = 0; j < 5; j++) resualt.push_back (' ');
-        }
+            }
         else
         resualt.push_back (code[i]);
-    }
+        }
 
     return resualt;
-}
+    }
 
 void PupCode (char file_[], const std::string &code_, unsigned func_sz)
-{
+    {
     FILE * File = fopen (file_, "w");
 
     fprintf (File, "%f \n", (float)func_sz);
     fprintf (File, "%s ", code_.c_str());
 
     fclose (File);
-}
+    }
