@@ -1,8 +1,8 @@
 class CStack final
 {
     private:
-    double* buffer_;
     size_t size_;
+    double* buffer_;
     size_t mem_size_;
 
     unsigned last_hash;
@@ -41,8 +41,8 @@ CStack::CStack () :
     }
 
 CStack::CStack (const CStack& Original) :
-    buffer_ (new double[Original.MySize ()]),
     size_ (Original.MySize ()),
+    buffer_ (new double[Original.MySize ()]),
     mem_size_ (Original.My_mem_size_ ()),
     last_hash (0)
     {

@@ -103,18 +103,22 @@ double CBuffer::Pop (unsigned i)
 
 CProc::CProc () :
     stack_ (),
+    buffer_ (),
     ax (0),
     bx (0),
     cx (0),
-    dx (0)
+    dx (0),
+    list_ ()
     {}
 
 CProc::CProc (const CProc& Proc) :
     stack_ (Proc.stack_),
+    buffer_ (Proc.buffer_),
     ax (0),
     bx (0),
     cx (0),
-    dx (0)
+    dx (0),
+    list_ ()
     {}
 
 //{ Functions
@@ -336,8 +340,8 @@ bool CProc::DoComand (int Num)
             bool do_it = (int)(stack_.Pop ()*2) != 0;
 
             if (do_it)
-            {std::cout << "q";
-                cursor = list_[cursor+1];
+            {
+                cursor = (int)list_[cursor+1];
             }
             else
             {
