@@ -9,6 +9,9 @@
 #include "Stack.h"
 #include "Consts.h"
 
+bool DO_DEBAG = false;
+#define DEBAG if(DO_DEBAG)
+
 class CBuffer
     {
     private:
@@ -67,6 +70,8 @@ class CProc
     void ExtractFromFile (char name[]);
 
 	bool Binar (int x);
+
+	void Dump ();
     };
 
 bool CompareWords (char word1[], int Sz1, char word2[], int SZ2);
@@ -76,10 +81,9 @@ int main ()
     CProc main_proc;
 
     main_proc.ExtractFromFile ("ComputerCode.txt");
-    main_proc.Performer ();
+    main_proc.Performer (); //std::cout << "fuck ";
 
-    main_proc.DumpStack ();
-    main_proc.DumpBuffer ();
+    main_proc.Dump ();
 
     system ("pause");
 
@@ -254,17 +258,21 @@ void* CProc::DoComand (int Num, double Parametr)
 
         case Pop_num:
             {
+            DEBAG std::cout << "Pop " << cursor << " ";
             Pop  (list_[cursor+1], list_[cursor+2]);
 
             cursor += 2;
+            DEBAG std::cout << cursor << "\n";
             break;
             }
 
         case Push_num:
             {
+                DEBAG std::cout << "Push " << cursor << " ";
             Push  (list_[cursor+1], list_[cursor+2]);
 
-            cursor += 2;
+            cursor += 2; DEBAG std::cout << cursor << "\n";
+
             break;
             }
 
@@ -272,6 +280,12 @@ void* CProc::DoComand (int Num, double Parametr)
             {
             cursor = list_[cursor+1];
 
+            break;
+            }
+
+        case Mark_num:
+            {
+            cursor++;
             break;
             }
 
@@ -288,10 +302,13 @@ void CProc::Performer ()
     while (cursor < list_.size ())
         {
         fun = list_[cursor];
+        std::cout << fun << " ";
         DoComand (fun);
 
         cursor++;
         }
+
+    std::cout << "\n";
     }
 
 void CProc::ExtractFromFile (char name[])
@@ -316,5 +333,14 @@ void CProc::ExtractFromFile (char name[])
         }
 
     fclose (code_file);
+    }
+
+void CProc::Dump ()
+    {
+    for (int i = 0; i < list_.size (); i++) std::cout << list_[i] << " ";
+    std::cout << "\n";
+    DumpStack ();
+    DumpBuffer ();
+
     }
 

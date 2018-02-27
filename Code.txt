@@ -1,4 +1,5 @@
 push (3);
 push (5);
+mark 1;
 pop [5];
 push [5];

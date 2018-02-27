@@ -8,6 +8,11 @@
 #include "Consts.h"
 #include "SubStrSearch.h"
 
+struct CPoint
+    {
+    int x, y;
+    };
+
 void Compile ();
 
 std::string GetCode (char FileName[]);
@@ -27,30 +32,42 @@ void Compile ()
     unsigned n_of_commands = 0;
 
     int last_stop = 0;
-    //int n_of_commands_before = 0;
 
-    /*std::vector<int> find_marks = SubStrSearch (str_code, AllFunctions[Mark_num].name_);
-    for (int i = 0; i < find_marks.size (); i++)
+//std::cout << "FUCK" <<AllFunctions[Mark_possition].name_ << "FUCK";
+    std::vector<CPoint> marks;
+    std::vector<int> find_words = SubStrSearch (str_code, AllFunctions[Mark_possition].name_);
+
+//std::cout << "FUCK";
+    marks.resize (find_words.size ());
+    for (int i = 0; i < marks.size (); i++)
         {
-        for (int j = last_stop; j < find_marks[i]; j++)
+        marks[i].x = find_words[i];
+        }
+
+    int com_num = 0;
+    int mark_i = 0;
+
+
+    for (int i = 0; i < str_code.size (); i++)
+        {
+        if (str_code[i] == ';') com_num ++;
+        if (marks[mark_i].x == i)
             {
-            if (str_code[i] == ';') n_of_commands_before++;
+            marks[mark_i].y = com_num;
+
+            mark_i++;
             }
+        }
 
-        int mark_begin;
-        int
-
-        for (int j = find_marks[i]+5; 1; j++)
-            {
-
-            }
-
-        last_stop = find_marks[i];
-        }*/
+    for (int i = 0; i < marks.size (); i++)
+        {
+        std::cout << marks[i].x << " " << marks[i].y << "\n";
+        }
+//std::cout << "FUCK";
 
     for (int i = 0; i < Num_of_functions; i++)
         {
-        std::vector<int> find_words = SubStrSearch (str_code, AllFunctions[i].name_);
+        find_words = SubStrSearch (str_code, AllFunctions[i].name_);
         n_of_commands += find_words.size ();
 
         for (int k = 0; k < find_words.size (); k++)
@@ -59,7 +76,6 @@ void Compile ()
             str_code[find_words[k]+j] = AllFunctions[i].num_name_[j];
             }
         }
-      //  std::cout << str_code << "\n";
 
     for (int i = 0; i < str_code.size (); i++)
         {
@@ -69,7 +85,7 @@ void Compile ()
         if (str_code[i] == ')') {str_code[i] = ' ';}
         if (str_code[i] == ']') {str_code[i] = ' ';}
         }
-//std::cout << str_code;
+
     for (int i = 0; i < str_code.size (); i++)
     if (str_code[i] == ';') str_code[i] = '\n';
 
