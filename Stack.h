@@ -1,6 +1,4 @@
-//#include "TXLib.h"
-
-class CStack
+class CStack final
     {
     private:
     double* buffer_;
@@ -11,51 +9,47 @@ class CStack
 
     bool DeleteBuffer () {delete[] buffer_; return true;};
 
+    void operator = (const CStack&);
+
     public:
-    CStack () :
-        size_ (0),
-        buffer_ (new double[1]),
-        mem_size_ (1),
-        last_hash (0)
-        {
-        last_hash = Hash ();
-        }
+    CStack  (                      );
+    CStack  (const CStack& Original);
+    ~CStack (                      ) {DeleteBuffer ();}
 
-    CStack (const CStack& Original) :
-        buffer_ (new double[Original.MySize ()]),
-        size_ (Original.MySize ()),
-        mem_size_ (Original.My_mem_size_ ())
-        {
-        std::copy(Original.Adress(), Original.Adress() + size_, buffer_);
+    const double* Adress       () const {return buffer_;  }
+    unsigned      MySize       () const {return size_;    }
+    unsigned      My_mem_size_ () const {return mem_size_;}
 
-		last_hash = Hash ();
-        }
+    bool          ChangeBuffer (double* buffer, bool should_I_delete = true);
 
-    ~CStack ()
-        {
-        DeleteBuffer ();
-        }
+    void          Push         (double new_item);
+    double        Pop          (               );
 
-    /*double operator [] (unsigned i) const
-        {
-        assert (i < size_);
-        return buffer_[i];
-        }*/
+    void          Dump         () const;
+    unsigned      Hash         () const;
 
-    const double* Adress () const {return buffer_;}
-    unsigned MySize () const {return size_;}
-    unsigned My_mem_size_ () const {return mem_size_;}
-
-    bool ChangeBuffer (double* buffer, bool should_I_delete = true);
-
-    void Push (double new_item);
-    double Pop ();
-
-    void Dump () const;
-    unsigned Hash () const;
-
-    bool Checker () const ;
+    bool          Checker      () const ;
     };
+
+CStack::CStack () :
+    size_ (0),
+    buffer_ (new double[1]),
+    mem_size_ (1),
+    last_hash (0)
+    {
+    last_hash = Hash ();
+    }
+
+CStack::CStack (const CStack& Original) :
+    buffer_ (new double[Original.MySize ()]),
+    size_ (Original.MySize ()),
+    mem_size_ (Original.My_mem_size_ ()),
+    last_hash (0)
+    {
+    std::copy(Original.Adress(), Original.Adress() + size_, buffer_);
+
+    last_hash = Hash ();
+    }
 
 bool CStack::ChangeBuffer (double* buffer, bool should_I_delete /*= true*/)
     {
@@ -111,7 +105,7 @@ void CStack::Dump () const
     std::cout << "  MemSize " << mem_size_ << std::endl;
     std::cout << "  Hash    " << Hash () << std::endl;
 
-    for (int i = 0; i < size_; i++)
+    for (unsigned i = 0; i < size_; i++)
         {
         std::cout << "    " << buffer_[i] << std::endl;
         }
@@ -126,9 +120,9 @@ unsigned CStack::Hash ()const
     resualt += (unsigned)buffer_ + (unsigned)(&size_) + (unsigned)(&mem_size_);
     resualt += 3*size_ + 5*mem_size_;
 
-    for (int i = 0; i < size_; i++)
+    for (unsigned i = 0; i < size_; i++)
         {
-        resualt += buffer_[i]/7;
+        resualt += (unsigned)buffer_[i]/7;
         }
 
     return resualt;
@@ -145,3 +139,5 @@ bool CStack::Checker ()const
 
     return false;
     }
+
+

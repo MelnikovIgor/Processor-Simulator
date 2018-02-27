@@ -48,7 +48,9 @@ void Compile ()
             str_code[find_words[k]+j] = AllFunctions[i].num_name_[j];
             }
         }
-n_of_commands = 0;
+
+    n_of_commands = 0;
+
     for (int i = 0; i < str_code.size (); i++)
         {
         if (str_code[i] == ';') {n_of_commands++;str_code[i] = '\n'; }

@@ -76,17 +76,15 @@ class CProc
 	bool mysin();
 	bool mycos();
 
-    void* DoComand (int Num, double Parametr = 0);
+    bool DoComand (int Num);
 
 	void Performer ();
-    void ExtractFromFile (char name[]);
+    void ExtractFromFile (const char name[]);
 
 	bool Binar (int x);
 
 	void Dump ();
     };
-
-bool CompareWords (char word1[], int Sz1, char word2[], int SZ2);
 
 int main ()
     {
@@ -116,17 +114,15 @@ double CBuffer::Pop (unsigned i)
     }
 
 
+//{ Functions
 void CProc::Push (int push_type, double new_item)
     {
     switch (push_type)
         {
         case 0:
             {
-            //if (list_[cursor+2] == 7) std::cout << new_item;
-
             stack_.Push (new_item);
 
-            //Dump ();
             break;
             }
 
@@ -153,8 +149,6 @@ void CProc::Push (int push_type, double new_item)
 
         default: break;
         }
-
-    //if (new_item == 7) Dump ();
     }
 
 void CProc::Pop (int pop_type, int where)
@@ -287,9 +281,9 @@ bool CProc::mycos ()
 
     return true;
     }
+//}
 
-
-void* CProc::DoComand (int Num, double Parametr)
+bool CProc::DoComand (int Num)
     {
     switch (Num)
         {
@@ -306,7 +300,7 @@ void* CProc::DoComand (int Num, double Parametr)
 
         case Pop_num:
             {
-            Pop  (list_[cursor+1], list_[cursor+2]);
+            Pop  ((int)list_[cursor+1], (int)list_[cursor+2]);
 
             cursor += 2;
             break;
@@ -314,8 +308,7 @@ void* CProc::DoComand (int Num, double Parametr)
 
         case Push_num:
             {
-            //if (list_[cursor+2] == 7) std::cout << list_[cursor+2];
-            Push  (list_[cursor+1], list_[cursor+2]);
+            Push  ((int)list_[cursor+1], (int)list_[cursor+2]);
 
             cursor += 2;
             break;
@@ -323,7 +316,7 @@ void* CProc::DoComand (int Num, double Parametr)
 
         case Jump_num:
             {
-            cursor = list_[cursor+1];
+            cursor = (int)list_[cursor+1];
 
             break;
             }
@@ -351,27 +344,26 @@ void* CProc::DoComand (int Num, double Parametr)
             break;
             }      */
 
-        default: return false;
+        default: return true;
         }
-        //std::cout << "\n";
-//Dump ();
+
     return false;
     }
 
 void CProc::Performer ()
     {
-    double fun = 0;
+    int fun = 0;
 
     while (cursor < list_.size ())
         {
-        fun = list_[cursor];
+        fun = (int)list_[cursor];
         DoComand (fun);
 
         cursor++;
         }
     }
 
-void CProc::ExtractFromFile (char name[])
+void CProc::ExtractFromFile (const char name[])
     {
     float in_num = 0, line_num = 0, num = 0;
 
@@ -405,7 +397,7 @@ void CProc::Dump ()
               << "  "    << dx
               << "\n\n   "    << cursor << "\n";
 
-    for (int i = 0; i < list_.size (); i++)
+    for (unsigned i = 0; i < list_.size (); i++)
         {
         if (i%10 == 0) std::cout << "\n    ";
 
