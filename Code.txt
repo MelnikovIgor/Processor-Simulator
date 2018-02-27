@@ -1,22 +1,14 @@
+
 push (3);
 push (5);
-<<<<<<< HEAD
-mark 1;
-=======
 jump here;
->>>>>>> 7c38118a02af56f2347fc6ba9ec7d4b0583c9ba4
 pop [5];
 push [5];
 mark here;
-push (4);
+push (7);
 push (8);
 push (16);
 pop ax;
 push ax;
 push ax;
 push (7);
-pop bx;
-push (27);
-pop dx;
-push (17);
-pop cx;

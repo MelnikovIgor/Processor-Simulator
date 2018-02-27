@@ -9,9 +9,6 @@
 #include "Stack.h"
 #include "Consts.h"
 
-bool DO_DEBAG = false;
-#define DEBAG if(DO_DEBAG)
-
 class CBuffer
     {
     private:
@@ -96,7 +93,7 @@ int main ()
     CProc main_proc;
 
     main_proc.ExtractFromFile ("ComputerCode.txt");
-    main_proc.Performer (); //std::cout << "fuck ";
+    main_proc.Performer ();
 
     main_proc.Dump ();
 
@@ -125,7 +122,11 @@ void CProc::Push (int push_type, double new_item)
         {
         case 0:
             {
+            //if (list_[cursor+2] == 7) std::cout << new_item;
+
             stack_.Push (new_item);
+
+            //Dump ();
             break;
             }
 
@@ -152,6 +153,8 @@ void CProc::Push (int push_type, double new_item)
 
         default: break;
         }
+
+    //if (new_item == 7) Dump ();
     }
 
 void CProc::Pop (int pop_type, int where)
@@ -303,21 +306,18 @@ void* CProc::DoComand (int Num, double Parametr)
 
         case Pop_num:
             {
-            DEBAG std::cout << "Pop " << cursor << " ";
             Pop  (list_[cursor+1], list_[cursor+2]);
 
             cursor += 2;
-            DEBAG std::cout << cursor << "\n";
             break;
             }
 
         case Push_num:
             {
-                DEBAG std::cout << "Push " << cursor << " ";
+            //if (list_[cursor+2] == 7) std::cout << list_[cursor+2];
             Push  (list_[cursor+1], list_[cursor+2]);
 
-            cursor += 2; DEBAG std::cout << cursor << "\n";
-
+            cursor += 2;
             break;
             }
 
@@ -331,16 +331,30 @@ void* CProc::DoComand (int Num, double Parametr)
         case Mark_num:
             {
             cursor++;
-<<<<<<< HEAD
-=======
 
->>>>>>> 7c38118a02af56f2347fc6ba9ec7d4b0583c9ba4
             break;
             }
 
+        /*case If_num:
+            {
+            bool do_it = (fabs(stack_.Pop ()) < 0.001)? 1 : 0;
+
+            if (do_it)
+                {
+                cursor = list_[cursor+1];
+                }
+            else
+                {
+                cursor++;
+                }
+
+            break;
+            }      */
+
         default: return false;
         }
-
+        //std::cout << "\n";
+//Dump ();
     return false;
     }
 
@@ -351,13 +365,10 @@ void CProc::Performer ()
     while (cursor < list_.size ())
         {
         fun = list_[cursor];
-        std::cout << fun << " ";
         DoComand (fun);
 
         cursor++;
         }
-
-    std::cout << "\n";
     }
 
 void CProc::ExtractFromFile (char name[])
@@ -386,22 +397,22 @@ void CProc::ExtractFromFile (char name[])
 
 void CProc::Dump ()
     {
-<<<<<<< HEAD
-    for (int i = 0; i < list_.size (); i++) std::cout << list_[i] << " ";
-    std::cout << "\n";
-    DumpStack ();
-    DumpBuffer ();
-
-    }
-
-=======
     DumpStack ();
 
     std::cout << "\n   " << ax
               << "  "    << bx
               << "  "    << cx
-              << "  "    << dx << "\n";
+              << "  "    << dx
+              << "\n\n   "    << cursor << "\n";
+
+    for (int i = 0; i < list_.size (); i++)
+        {
+        if (i%10 == 0) std::cout << "\n    ";
+
+        std::cout << list_[i] << " ";
+        }
+
+    std::cout << "\n";
 
     DumpBuffer ();
     }
->>>>>>> 7c38118a02af56f2347fc6ba9ec7d4b0583c9ba4

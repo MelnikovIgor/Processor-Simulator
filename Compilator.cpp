@@ -8,11 +8,6 @@
 #include "Consts.h"
 #include "SubStrSearch.h"
 
-struct CPoint
-    {
-    int x, y;
-    };
-
 void Compile ();
 
 std::string GetCode (char FileName[]);
@@ -32,45 +27,6 @@ void Compile ()
 
     unsigned n_of_commands = 0;
 
-<<<<<<< HEAD
-    int last_stop = 0;
-
-//std::cout << "FUCK" <<AllFunctions[Mark_possition].name_ << "FUCK";
-    std::vector<CPoint> marks;
-    std::vector<int> find_words = SubStrSearch (str_code, AllFunctions[Mark_possition].name_);
-
-//std::cout << "FUCK";
-    marks.resize (find_words.size ());
-    for (int i = 0; i < marks.size (); i++)
-        {
-        marks[i].x = find_words[i];
-        }
-
-    int com_num = 0;
-    int mark_i = 0;
-
-
-    for (int i = 0; i < str_code.size (); i++)
-        {
-        if (str_code[i] == ';') com_num ++;
-        if (marks[mark_i].x == i)
-            {
-            marks[mark_i].y = com_num;
-
-            mark_i++;
-            }
-        }
-
-    for (int i = 0; i < marks.size (); i++)
-        {
-        std::cout << marks[i].x << " " << marks[i].y << "\n";
-        }
-//std::cout << "FUCK";
-
-    for (int i = 0; i < Num_of_functions; i++)
-        {
-        find_words = SubStrSearch (str_code, AllFunctions[i].name_);
-=======
     for (int i = 0; i < str_code.size (); i++)
         {
         if (str_code[i] == '(') {str_code[i] = '0';}
@@ -84,7 +40,6 @@ void Compile ()
         {
         if (i == Jump_possition) FindMark (str_code);
         std::vector<int> find_words = SubStrSearch (str_code, AllFunctions[i].name_);
->>>>>>> 7c38118a02af56f2347fc6ba9ec7d4b0583c9ba4
         n_of_commands += find_words.size ();
 
         for (int k = 0; k < find_words.size (); k++)
@@ -93,21 +48,11 @@ void Compile ()
             str_code[find_words[k]+j] = AllFunctions[i].num_name_[j];
             }
         }
-
+n_of_commands = 0;
     for (int i = 0; i < str_code.size (); i++)
-<<<<<<< HEAD
         {
-        if (str_code[i] == '(') {str_code[i] = '0';}
-        if (str_code[i] == '[') {str_code[i] = '1';}
-
-        if (str_code[i] == ')') {str_code[i] = ' ';}
-        if (str_code[i] == ']') {str_code[i] = ' ';}
+        if (str_code[i] == ';') {n_of_commands++;str_code[i] = '\n'; }
         }
-
-    for (int i = 0; i < str_code.size (); i++)
-=======
->>>>>>> 7c38118a02af56f2347fc6ba9ec7d4b0583c9ba4
-    if (str_code[i] == ';') str_code[i] = '\n';
 
     PupCode ("ComputerCode.txt", str_code, n_of_commands);
     }
