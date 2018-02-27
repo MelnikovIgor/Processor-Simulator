@@ -41,12 +41,27 @@ class CProc
     CStack stack_;
     CBuffer buffer_;
 
+    double ax, bx, cx, dx;
+
     std::vector<double> list_;
     unsigned cursor = 0;
 
     public:
-    CProc () : stack_ () {}
-    CProc (const CProc& Proc) : stack_ (Proc.stack_) {}
+    CProc () :
+        stack_ (),
+        ax (0),
+        bx (0),
+        cx (0),
+        dx (0)
+        {}
+
+    CProc (const CProc& Proc) :
+        stack_ (Proc.stack_),
+        ax (0),
+        bx (0),
+        cx (0),
+        dx (0)
+        {}
 
     void     Push (int push_type, double new_item);
     void   Pop (int pop_type, int where);
@@ -114,9 +129,24 @@ void CProc::Push (int push_type, double new_item)
             break;
             }
 
-        case 1:         //buffer
+        case 1:
             {
             stack_.Push (buffer_[(unsigned)new_item]);
+            break;
+            }
+
+        case 2:
+            {
+            switch ((int)new_item)
+                {
+                case 0: stack_.Push (ax); break;
+                case 1: stack_.Push (bx); break;
+                case 2: stack_.Push (cx); break;
+                case 3: stack_.Push (dx); break;
+
+                default: break;
+                }
+
             break;
             }
 
@@ -131,13 +161,28 @@ void CProc::Pop (int pop_type, int where)
         case 0:
             {
             stack_.Pop ();
-            break;
 
+            break;
             }
 
-        case 1:         //buffer
+        case 1:
             {
             buffer_[where] = stack_.Pop ();
+
+            break;
+            }
+
+        case 2:
+            {
+            switch (where)
+                {
+                case 0: ax = stack_.Pop (); break;
+                case 1: bx = stack_.Pop (); break;
+                case 2: cx = stack_.Pop (); break;
+                case 3: dx = stack_.Pop (); break;
+
+                default: break;
+                }
 
             break;
             }
@@ -286,6 +331,10 @@ void* CProc::DoComand (int Num, double Parametr)
         case Mark_num:
             {
             cursor++;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7c38118a02af56f2347fc6ba9ec7d4b0583c9ba4
             break;
             }
 
@@ -337,6 +386,7 @@ void CProc::ExtractFromFile (char name[])
 
 void CProc::Dump ()
     {
+<<<<<<< HEAD
     for (int i = 0; i < list_.size (); i++) std::cout << list_[i] << " ";
     std::cout << "\n";
     DumpStack ();
@@ -344,3 +394,14 @@ void CProc::Dump ()
 
     }
 
+=======
+    DumpStack ();
+
+    std::cout << "\n   " << ax
+              << "  "    << bx
+              << "  "    << cx
+              << "  "    << dx << "\n";
+
+    DumpBuffer ();
+    }
+>>>>>>> 7c38118a02af56f2347fc6ba9ec7d4b0583c9ba4
