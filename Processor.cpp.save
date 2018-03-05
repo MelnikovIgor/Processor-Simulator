@@ -360,10 +360,6 @@ bool CProc::DoComand (int Num)
                 {
                 cursor = (int)list_[cursor+1];
                 }
-            else
-                {
-                cursor++;
-                }
 
             break;
             }
@@ -376,10 +372,6 @@ bool CProc::DoComand (int Num)
             if (fabs (x - y) >= 0.000001)
                 {
                 cursor = (int)list_[cursor+1];
-                }
-            else
-                {
-                cursor++;
                 }
 
             break;
