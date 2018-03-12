@@ -129,6 +129,9 @@ void FindMark (std::string& str_code)
         lable_num_in_code.clear ();
         n_of_commands_before = 0;
         n_of_param_before = 0;
+        lable_name.clear ();
+
+        find_label = SubStrSearch (str_code, AllFunctions[Mark_possition].name_);
     }
 }
 

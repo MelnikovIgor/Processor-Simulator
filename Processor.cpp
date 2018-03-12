@@ -385,6 +385,22 @@ bool CProc::DoComand (int Num)
             break;
             }
 
+        case Jump_if_pos:
+            {
+            double x = stack_.Pop ();
+
+            if (x >= 0.000001)
+                {
+                cursor = (int)list_[cursor+1];
+                }
+            else
+                {
+                cursor++;
+                }
+
+            break;
+            }
+
         default: return true;
     }//Dump ();
 
