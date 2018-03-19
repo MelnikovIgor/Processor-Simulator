@@ -69,6 +69,7 @@ public:
     bool     DoComand (int Num);
 	void     Performer ();
     void     OneTurnPerformer ();
+    bool     End () {return cursor >= list_.size ();};
 
     void     ExtractFromFile (const char name[]);
 
@@ -77,12 +78,27 @@ public:
 
 int main ()
 {
-    CProc main_proc;
+    int const N = 3;
+    int timer = 0;
+    CProc* main_proc = new CProc [3];
 
-    main_proc.ExtractFromFile ("ComputerCode.txt");
-    main_proc.Performer ();
+    for (int i = 0; i < N; i++) main_proc[i].ExtractFromFile ("ComputerCode.txt");
 
-    main_proc.Dump ();
+    while (1)
+    {
+        for (int i = 0; i < N; i++)
+        {
+            main_proc[i].Performer ();
+
+            if (main_proc[i].End () == true) timer++;
+        }
+
+        if (timer == N) break;
+        else
+            timer = 0;
+    }
+
+    for (int i = 0; i < N; i++) main_proc[i].Dump ();
 
     system ("pause");
 
@@ -435,7 +451,7 @@ void CProc::Performer ()
 
     while (cursor < list_.size ())
     {
-        std::cout << list_[cursor] << " " << cursor << "\n";
+        //std::cout << list_[cursor] << " " << cursor << "\n";
         fun = static_cast<int> (list_[cursor]);
         DoComand (fun);
 
