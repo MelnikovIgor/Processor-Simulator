@@ -1,29 +1,31 @@
 
+push (1);
 push (2);
 push (3);
+
+call here;
+jump werv;
+
+mark here;
+push (4);
+call rrr;
+return 0;
+
+mark rrr;
 push (5);
-pop [2];
-pop [1];
-pop [0];
+call www;
+return 0;
 
-push (0);
-push [0];
-jump_eq lineiny;
+mark www;
+push (6);
+call ttt;
+return 0;
 
-jump end_;
+mark ttt;
+push (7);
+return 0;
 
-push (0);
-push [1];
-jump_eq end_;
+mark werv;
 
-push [1];
-push [2];
-push (-1);
-mul;
-div;
 
-jump end_;
-
-mark end_;
-push (0);
-mark lineiny;
+push (9);

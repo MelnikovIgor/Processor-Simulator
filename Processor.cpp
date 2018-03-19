@@ -44,6 +44,7 @@ private:
     double ax, bx, cx, dx;
 
     std::vector<double> list_;
+    std::vector<size_t> call_list_;
     unsigned cursor = 0;
 
 public:
@@ -67,6 +68,7 @@ public:
 
     bool     DoComand (int Num);
 	void     Performer ();
+    void     OneTurnPerformer ();
 
     void     ExtractFromFile (const char name[]);
 
@@ -108,7 +110,8 @@ CProc::CProc () :
     bx (0),
     cx (0),
     dx (0),
-    list_ ()
+    list_ (),
+    call_list_ ()
     {}
 
 CProc::CProc (const CProc& Proc) :
@@ -118,7 +121,8 @@ CProc::CProc (const CProc& Proc) :
     bx (0),
     cx (0),
     dx (0),
-    list_ ()
+    list_ (),
+    call_list_ ()
     {}
 
 //{ Functions
@@ -135,13 +139,13 @@ void CProc::Push (int push_type, double new_item)
 
         case 1:
         {
-            stack_.Push (buffer_[(unsigned)new_item]);
+            stack_.Push (buffer_[static_cast<size_t>(new_item)]);
             break;
         }
 
         case 2:
         {
-            switch ((int)new_item)
+            switch (static_cast<int>(new_item))
             {
                 case 0: stack_.Push (ax); break;
                 case 1: stack_.Push (bx); break;
@@ -307,7 +311,7 @@ bool CProc::DoComand (int Num)
 
         case Pop_num:
         {
-            Pop  ((int)list_[cursor+1], (int)list_[cursor+2]);
+            Pop  (static_cast<int> (list_[cursor+1]), static_cast<int> (list_[cursor+2]));
 
             cursor += 2;
             break;
@@ -315,7 +319,7 @@ bool CProc::DoComand (int Num)
 
         case Push_num:
         {
-            Push  ((int)list_[cursor+1], (int)list_[cursor+2]);
+            Push  (static_cast<int> (list_[cursor+1]), static_cast<int> (list_[cursor+2]));
 
             cursor += 2;
             break;
@@ -323,7 +327,8 @@ bool CProc::DoComand (int Num)
 
         case Jump_num:
         {
-            cursor = (int)list_[cursor+1];
+           // std::cout << "{"<<cursor << " " << (int)list_[cursor+1]<<" "<< list_[list_[cursor+1]]<< "}\n";
+            cursor = static_cast<int> (list_[cursor+1]);
 
             break;
         }
@@ -337,11 +342,11 @@ bool CProc::DoComand (int Num)
 
         case If_num:
         {
-            bool do_it = (int)(stack_.Pop ()*2) != 0;
+            bool do_it = static_cast<int> (stack_.Pop ()*2) != 0;
 
             if (do_it)
             {
-                cursor = (int)list_[cursor+1];
+                cursor = static_cast<int> (list_[cursor+1]);
             }
             else
             {
@@ -358,7 +363,7 @@ bool CProc::DoComand (int Num)
 
             if (fabs (x - y) < 0.000001)
                 {
-                cursor = (int)list_[cursor+1];
+                cursor = static_cast<int> (list_[cursor+1]);
                 }
             else
                 {
@@ -375,7 +380,7 @@ bool CProc::DoComand (int Num)
 
             if (fabs (x - y) >= 0.000001)
                 {
-                cursor = (int)list_[cursor+1];
+                cursor = static_cast<int> (list_[cursor+1]);
                 }
             else
                 {
@@ -391,12 +396,29 @@ bool CProc::DoComand (int Num)
 
             if (x >= 0.000001)
                 {
-                cursor = (int)list_[cursor+1];
+                cursor = static_cast<int> (list_[cursor+1]);
                 }
             else
                 {
                 cursor++;
                 }
+
+            break;
+            }
+
+        case Call_num:
+            {
+               // std::cout << list_[cursor+1] << "\n";
+            call_list_.push_back(cursor+1);
+            cursor = static_cast<int> (list_[cursor+1])+1;
+
+            break;
+            }
+
+        case Return_num:
+            {
+            cursor = call_list_[call_list_.size() - 1];
+            call_list_.resize(call_list_.size()-1);
 
             break;
             }
@@ -413,12 +435,27 @@ void CProc::Performer ()
 
     while (cursor < list_.size ())
     {
-        fun = (int)list_[cursor];
+        std::cout << list_[cursor] << " " << cursor << "\n";
+        fun = static_cast<int> (list_[cursor]);
         DoComand (fun);
 
         cursor++;
     }
 }
+
+void CProc::OneTurnPerformer ()
+    {
+    int fun = 0;
+
+    if (cursor < list_.size ())
+        {
+        //std::cout << list_[cursor] << " " << cursor << "\n";
+        fun = static_cast<int> (list_[cursor]);
+        DoComand (fun);
+
+        cursor++;
+        }
+    }
 
 void CProc::ExtractFromFile (const char name[])
 {
@@ -429,7 +466,7 @@ void CProc::ExtractFromFile (const char name[])
 
     fscanf (code_file, "%f ", &in_num);
 
-    for (int i = 0; i < (int)in_num; i++)
+    for (int i = 0; i < static_cast<int> (in_num); i++)
     {
         fscanf (code_file, "%f ", &line_num);
 
@@ -437,7 +474,7 @@ void CProc::ExtractFromFile (const char name[])
         {
             fscanf (code_file, "%f ", &num);
 
-            list_.push_back ((double)num);
+            list_.push_back (static_cast<double> (num));
         }
     }
 

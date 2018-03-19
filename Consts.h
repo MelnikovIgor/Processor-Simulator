@@ -30,11 +30,13 @@ const int If_num = 14;
 const int Jump_if_equal = 15;
 const int Jump_if_not_equal = 16;
 const int Jump_if_pos = 17;
+const int Call_num = 18;
+const int Return_num = 19;
 
 
 
 
-const int Num_of_functions = 21;
+const int Num_of_functions = 23;
 
 const int Mark_possition = Num_of_functions-1;
 const int Jump_possition = Num_of_functions-2;
@@ -58,6 +60,8 @@ Function AllFunctions[Num_of_functions] = {{Null_num       , " Null " , " 1 0  "
                                            {Jump_if_pos    , " jump_pos ", " 2 17     "},
                                            {Jump_if_equal  , " jump_eq ", " 2 15    "},
                                            {Jump_if_not_equal  , " jump_n_eq ", "   2 16    "},
+                                           {Call_num       , " call   ", "  2 18  "},
+                                           {Return_num     , " return ", "  2 19  "},
                                            {Jump_num       , " jump " , " 2 12 " },
                                            {Mark_num       , " mark " , " 2 13 " }
                             };

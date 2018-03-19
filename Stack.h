@@ -113,16 +113,16 @@ void CStack::Dump () const
     Checker ();
 }
 
-unsigned CStack::Hash ()const
+size_t CStack::Hash ()const
 {
-    unsigned resualt = 0;
+    size_t resualt = 0;
 
-    resualt += (unsigned)buffer_ + (unsigned)(&size_) + (unsigned)(&mem_size_);
+    resualt += reinterpret_cast<size_t> (buffer_) + reinterpret_cast<size_t>(&size_) + reinterpret_cast<size_t> (&mem_size_);
     resualt += 3*size_ + 5*mem_size_;
 
-    for (unsigned i = 0; i < size_; i++)
+    for (size_t i = 0; i < size_; i++)
     {
-        resualt += (unsigned)buffer_[i]/7;
+        resualt += static_cast<size_t> (buffer_[i]/7);
     }
 
     return resualt;
