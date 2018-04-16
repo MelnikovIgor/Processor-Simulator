@@ -78,9 +78,9 @@ public:
 
 int main ()
 {
-    int const N = 3;
+    int const N = 1;
     int timer = 0;
-    CProc* main_proc = new CProc [3];
+    CProc* main_proc = new CProc [1];
 
     for (int i = 0; i < N; i++) main_proc[i].ExtractFromFile ("ComputerCode.txt");
 

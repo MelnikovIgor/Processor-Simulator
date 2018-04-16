@@ -1,31 +1,35 @@
 
+push (0);
 push (1);
-push (2);
-push (3);
-
-call here;
-jump werv;
-
-mark here;
-push (4);
-call rrr;
-return 0;
-
-mark rrr;
 push (5);
-call www;
+
+push (-2);
+add;
+
+pop dx;
+pop bx;
+pop ax;
+
+mark start;
+call turn;
+push dx;
+push (-1);
+add;
+pop dx;
+push dx;
+jump_pos start;
+
+jump end;
+
+mark turn;
+push bx;
+push ax;
+add;
+push bx;
+pop ax;
+pop bx;
 return 0;
 
-mark www;
-push (6);
-call ttt;
-return 0;
+mark end;
+push bx;
 
-mark ttt;
-push (7);
-return 0;
-
-mark werv;
-
-
-push (9);

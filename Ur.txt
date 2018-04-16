@@ -1,0 +1,76 @@
+
+push (1);
+push (2);
+push (1);
+
+pop cx;
+pop bx;
+pop ax;
+
+push ax;
+push (0);
+jump_eq a_0;
+
+push bx;
+push bx;
+mul;
+
+push ax;
+push cx;
+push (-4);
+mul;
+mul;
+
+add;
+dup;
+jump_pos D_0;
+dup;
+push (0);
+jump_eq D_0;
+jump end;
+
+mark D_0;
+sqrt;
+pop dx;
+
+push (2);
+push ax;
+mul;
+
+push dx;
+push bx;
+push (-1);
+mul;
+add;
+div;
+
+push (2);
+push ax;
+mul;
+
+push dx;
+push (-1);
+mul;
+push bx;
+push (-1);
+mul;
+add;
+div;
+
+jump end;
+
+mark a_0;
+push bx;
+push (0);
+jump_eq a_b_0;
+push bx;
+push cx;
+div;
+push (-1);
+mul;
+jump end;
+
+mark a_b_0;
+jump end;
+
+mark end;

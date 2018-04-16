@@ -36,10 +36,27 @@ void Compile ()
         if (str_code[i] == ']') {str_code[i] = ' ';}
     }
 
+    for (int i = 11; i < 15; i++)
+    {
+        std::vector<int> find_words = SubStrSearch (str_code, AllFunctions[i].name_);
+
+        n_of_commands += find_words.size ();
+
+        for (size_t k = 0; k < find_words.size (); k++)
+        for (size_t j = 0; j < AllFunctions[i].name_.size () && j < AllFunctions[i].num_name_.size (); j++)
+        {
+            str_code[find_words[k]+j] = AllFunctions[i].num_name_[j];
+        }
+    }
+
+    FindMark (str_code);
+
+    std::cout << str_code;
+
+
+
     for (int i = 0; i < Num_of_functions; i++)
     {
-        if (i == Jump_possition) FindMark (str_code);
-
         std::vector<int> find_words = SubStrSearch (str_code, AllFunctions[i].name_);
 
         n_of_commands += find_words.size ();
@@ -63,6 +80,7 @@ void Compile ()
     }
 
     PupCode ("ComputerCode.txt", str_code, n_of_commands);
+
 }
 
 void FindMark (std::string& str_code)
@@ -100,7 +118,7 @@ void FindMark (std::string& str_code)
             if (str_code[j] == ';') n_of_commands_before++;
 
         char str[15] = "";
-        sprintf(str, "   %d   ", n_of_param_before-2*n_of_commands_before+1+i);
+        sprintf(str, "   %d   ", n_of_param_before-n_of_commands_before);
 
         lable_num_in_code.insert (lable_num_in_code.size (), str);
 
